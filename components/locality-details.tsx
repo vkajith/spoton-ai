@@ -72,7 +72,7 @@ export function LocalityDetails({ locality, timeRange, onTimeRangeChange }: Loca
             {/* Right side - Details */}
             <div className="w-1/2 border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Detail</h3>
-              <div className="prose prose-sm max-w-none text-gray-600 max-h-[300px] overflow-y-auto px-4">
+              <div className="prose prose-sm max-w-none text-gray-600 max-h-[300px] overflow-y-auto">
                 <div className="space-y-4">
                   {locality.description.split(/(\d+(?:\.\d+)?%?)/).map((part, index) => (
                     <span key={index}>

@@ -6,39 +6,11 @@ import 'leaflet/dist/leaflet.css';
 
 interface LocalityMapProps {
   name: string;
+  center: [string, string]
 }
 
-export default function LocalityMap({name }: LocalityMapProps) {
-// Function to get coordinates from location name using OpenStreetMap Nominatim API
-const [center, setCenter] = useState<[number,number]>([0, 0])
-useEffect(() => {
-  async function getCoordinates(locationName: string): Promise<[number, number]> {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}`
-      );
-      const data = await response.json();
-      
-      if (data && data.length > 0) {
-        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-      }
-      throw new Error('Location not found');
-    } catch (error) {
-      console.error('Error fetching coordinates:', error);
-      return [0, 0]; // Default coordinates if lookup fails
-    }
-  }
+export default function LocalityMap({name, center}: LocalityMapProps) {
 
-  // Call getCoordinates when name changes
-  const fetchCoordinates = async () => {
-    const coordinates = await getCoordinates(name);
-
-    setCenter(coordinates)
-    // You can use the coordinates here if needed
-  };
-
-  fetchCoordinates();
-}, [name]);
   useEffect(() => {
     const map = L.map('map', {
       zoomControl: false,  // Hide zoom controls
@@ -49,7 +21,7 @@ useEffect(() => {
       boxZoom: false,  // Disable box zoom
       keyboard: false,  // Disable keyboard navigation
       attributionControl: false,  // Hide attribution
-    }).setView(center, 15, {
+    }).setView([parseFloat(center[0]), parseFloat(center[1])], 15, {
       animate: true,
       duration: 1.5
     });
@@ -61,7 +33,7 @@ useEffect(() => {
       // Note: interactive option removed as it's not a valid TileLayerOptions property
     }).addTo(map);
     // Create a single circle with gradient effect
-    const circle = L.circle(center, {
+    const circle = L.circle([parseFloat(center[0]), parseFloat(center[1])], {
       radius: 800,  // Single large circle
       color: 'rgba(255, 59, 48, 0.3)',
       fillColor: 'rgba(255, 59, 48, 0.2)',
@@ -93,11 +65,11 @@ useEffect(() => {
       popupAnchor: [0, -30],
     });
 
-    const marker = L.marker(center, { icon: customIcon }).addTo(map);
+    const marker = L.marker([parseFloat(center[0]), parseFloat(center[1])], { icon: customIcon }).addTo(map);
     marker.bindPopup(name).openPopup();
 
     // Fly to the location with animation
-    map.flyTo(center, 15, {
+    map.flyTo([parseFloat(center[0]), parseFloat(center[1])], 15, {
       duration: 1.5,
       easeLinearity: 0.25
     });

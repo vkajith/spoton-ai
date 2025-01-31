@@ -61,7 +61,7 @@ export default function SearchPage() {
       }
 
       const localityData = await response.json();
-      setSelectedLocality({...localityData, name: suggestion});
+      setSelectedLocality(localityData);
       setSearchQuery(suggestion);
     } catch (err) {
       console.error('Error fetching locality data:', err);
@@ -177,6 +177,7 @@ export default function SearchPage() {
                 </CardHeader>
                 <CardContent>
                   <LocalityMap
+                    center={selectedLocality.coordinates}
                     name={selectedLocality.name}
                   />
                 </CardContent>
