@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import { LocalityDetails } from '@/components/locality-details';
 import { searchLocalities} from '@/lib/api/localities';
 import { LocalityData } from '@/lib/types';
+import { Loader2 } from 'lucide-react';
 
 // Dynamically import map to avoid SSR issues
 const LocalityMap = dynamic(() => import('@/components/locality-map'), {
@@ -193,7 +194,13 @@ export default function SearchPage() {
         )}
 
         {/* Content Grid */}
-        {selectedLocality ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <Loader2 className="h-12 w-12 text-gray-400 animate-spin mb-4" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading locality data...</h2>
+            <p className="text-gray-500">Please wait while we fetch the information</p>
+          </div>
+        ) : selectedLocality ? (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-6 relative z-0">
               <div>
