@@ -160,7 +160,7 @@ export default function SearchPage() {
                     {suggestions.map((suggestion, index) => (
                       <button
                         key={index}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2"
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 cursor-pointer"
                         onClick={() => handleSuggestionClick(suggestion)}
                       >
                         <MapPin className="h-4 w-4 text-gray-400" />
