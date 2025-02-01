@@ -71,24 +71,9 @@ export function LocalityDetails({ locality, timeRange, onTimeRangeChange }: Loca
 
             {/* Right side - Details */}
             <div className="w-1/2 border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Detail</h3>
-              <div className="prose prose-sm max-w-none text-gray-600 max-h-[300px] overflow-y-auto">
-                <div className="space-y-4">
-                  {locality.description.split(/(\d+(?:\.\d+)?%?)/).map((part, index) => (
-                    <span key={index}>
-                      {/\d+(?:\.\d+)?%?/.test(part) ? (
-                        <span className="inline-flex items-center justify-center px-2 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded mx-1">
-                          {part}
-                        </span>
-                      ) : (
-                        <span className="leading-relaxed">{part}</span>
-                      )}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Key Highlights</h4>
+              <h3 className="text-lg font-semibold mb-4">Key Highlights</h3>
+              <div className="prose prose-sm max-w-none text-gray-600 max-h-[300px] overflow-y-auto">                
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
                   <ul className="space-y-2 list-disc list-inside text-gray-600">
                     {locality.description
                       .split('.')

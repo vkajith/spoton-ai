@@ -27,10 +27,9 @@ export default function LocalityMap({name, center}: LocalityMapProps) {
     });
 
     // Custom styled map layer using Stamen Toner Lite
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png?api_key=213e1e59-2812-4080-9cfe-5fd65c6fa908', {
       maxZoom: 20,
       attribution: '',
-      // Note: interactive option removed as it's not a valid TileLayerOptions property
     }).addTo(map);
     // Create a single circle with gradient effect
     const circle = L.circle([parseFloat(center[0]), parseFloat(center[1])], {
