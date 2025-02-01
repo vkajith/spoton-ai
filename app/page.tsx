@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Search, MessageCircle, X } from 'lucide-react';
+import { MapPin, Search, MessageCircle, X, Home, Building } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,34 @@ const LocalityMap = dynamic(() => import('@/components/locality-map'), {
   ssr: false,
   loading: () => <div className="h-[400px] bg-gray-100 animate-pulse rounded-lg" />
 });
+
+// Move dummy projects data outside the component
+const DUMMY_PROJECTS = [
+  {
+    name: "Prestige Park Grove",
+    developer: "Prestige Group",
+    price: "1.2 - 3.5",
+    configuration: "2, 3 & 4 BHK",
+    possession: "Dec 2025",
+    area: "1250 - 2800 sq.ft"
+  },
+  {
+    name: "Brigade Woods",
+    developer: "Brigade Group",
+    price: "0.9 - 2.8",
+    configuration: "1, 2 & 3 BHK",
+    possession: "Mar 2026",
+    area: "650 - 1850 sq.ft"
+  },
+  {
+    name: "Godrej Splendour",
+    developer: "Godrej Properties",
+    price: "1.5 - 4.2",
+    configuration: "3 & 4 BHK",
+    possession: "Jun 2025",
+    area: "1800 - 3200 sq.ft"
+  }
+];
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -166,30 +194,76 @@ export default function SearchPage() {
 
         {/* Content Grid */}
         {selectedLocality ? (
-          <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-6 relative z-0">
-            <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5" />
-                    {selectedLocality.name}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <LocalityMap
-                    center={selectedLocality.coordinates}
-                    name={selectedLocality.name}
-                  />
-                </CardContent>
-              </Card>
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-6 relative z-0">
+              <div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <MapPin className="h-5 w-5" />
+                      {selectedLocality.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <LocalityMap
+                      center={selectedLocality.coordinates}
+                      name={selectedLocality.name}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <LocalityDetails
+                onTimeRangeChange={setTimeRange}
+                locality={selectedLocality}
+                timeRange={timeRange}
+              />
             </div>
-            
-            <LocalityDetails
-              onTimeRangeChange={setTimeRange}
-              locality={selectedLocality}
-              timeRange={timeRange}
-            />
-          </div>
+
+            {/* Projects Section */}
+            <div className="mt-12">
+              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                <Building className="h-5 w-5" />
+                Available Projects
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {DUMMY_PROJECTS.map((project, index) => (
+                  <Card key={index} className="hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Home className="h-5 w-5" />
+                        {project.name}
+                      </CardTitle>
+                      <p className="text-sm text-gray-500">{project.developer}</p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">Price Range</span>
+                          <span className="font-semibold">₹{project.price} Cr</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">Configuration</span>
+                          <span>{project.configuration}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">Area</span>
+                          <span>{project.area}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">Possession</span>
+                          <span>{project.possession}</span>
+                        </div>
+                        <Button variant="outline" className="w-full mt-4">
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </>
         ) : (
           <div className="text-center py-12">
             <MapPin className="h-12 w-12 mx-auto text-gray-400 mb-4" />

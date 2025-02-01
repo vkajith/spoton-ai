@@ -72,19 +72,20 @@ export function LocalityDetails({ locality, timeRange, onTimeRangeChange }: Loca
             {/* Right side - Details */}
             <div className="w-1/2 border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Key Highlights</h3>
-              <div className="prose prose-sm max-w-none text-gray-600 max-h-[300px] overflow-y-auto">                
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                  <ul className="space-y-2 list-disc list-inside text-gray-600">
-                    {locality.description
-                      .split('.')
-                      .filter(sentence => sentence.trim())
-                      .slice(0, 3)
-                      .map((highlight, index) => (
-                        <li key={index} className="text-sm">
-                          {highlight.trim()}
-                        </li>
-                      ))}
-                  </ul>
+              <div className="prose prose-sm max-w-none text-gray-600 max-h-[320px] overflow-y-auto">                
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 space-y-4"> 
+                  {locality.description.map((item, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <span className="text-primary mt-0.5">
+                        {(() => {
+                          const IconComponents = [Building2, School, Hospital, Trees, UtensilsCrossed, Bus];
+                          const Icon = IconComponents[index % 6];
+                          return <Icon />;
+                        })()}
+                      </span>
+                      <p className="flex-1">{item}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
