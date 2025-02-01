@@ -158,14 +158,21 @@ export default function SearchPage() {
                 {showSuggestions && suggestions.length > 0 && (
                   <div className="absolute left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto z-10">
                     {suggestions.map((suggestion, index) => (
-                      <button
+                      <div
                         key={index}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 cursor-pointer"
+                        role="button"
+                        tabIndex={0}
                         onClick={() => handleSuggestionClick(suggestion)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            handleSuggestionClick(suggestion);
+                          }
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 cursor-pointer select-none"
                       >
                         <MapPin className="h-4 w-4 text-gray-400" />
                         <span>{suggestion}</span>
-                      </button>
+                      </div>
                     ))}
                   </div>
                 )}
